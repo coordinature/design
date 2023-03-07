@@ -100,13 +100,19 @@
         scene.add(box)
 
         //buffergeometry
-        const bufferGeometry = new THREE.BufferGeometry()
+        const geometry = new THREE.BufferGeometry()
         const vertices = []
+        const materials = [];
 
         //texture
         const textureLoader = new THREE.TextureLoader()
 
-        const sprite1 = textureLoader.load('./assets/@mini/logo.png')
+        const sprite1 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/comma.svg')
+        const sprite2 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/a.svg')
+        const sprite3 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/H-caps.svg')
+        const sprite4 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/Z-caps.svg')
+        const sprite5 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/astricks.svg')
+        const sprite6 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/e.svg')
 
         for (let i = 0; i < 10000; i++) {
 
@@ -119,12 +125,12 @@
         }
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
 
-        parameters = [
+        const parameters = [
             [[1.0, 0.2, 0.5], sprite1, 20],
-            [[0.95, 0.1, 0.5], sprite1, 15],
-            [[0.90, 0.05, 0.5], sprite1, 10],
-            [[0.85, 0, 0.5], sprite1, 8],
-            [[0.80, 0, 0.5], sprite1, 5]
+            [[0.95, 0.1, 0.5], sprite2, 15],
+            [[0.90, 0.05, 0.5], sprite3, 10],
+            [[0.85, 0, 0.5], sprite4, 8],
+            [[0.80, 0, 0.5], sprite5, 5]
         ]
         for (let i = 0; i < parameters.length; i++) {
 
