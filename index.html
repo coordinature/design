@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> snowglobe </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+
+</head>
+
+<body class="body">
+
+    <div class="uk-container uk-background-muted">
+        <div class="uk-card uk-card-secondary uk-card-medium uk-border-rounded uk-position-bottom"> 
+           <div class="uk-card-body"> hello </div>
+        </div>
+       <canvas class="webgl"></canvas>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.131.1/examples/jsm/controls/OrbitControls.js'
+        
+        // Canvas
+        const canvas = document.querySelector('canvas.webgl')
+
+        // Scene
+        const scene = new THREE.Scene()
+
+        //Sizes
+        const sizes = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+
+        window.addEventListener('resize', () => {
+            // Update sizes
+            sizes.width = window.innerWidth
+            sizes.height = window.innerHeight
+
+            // Update camera
+            camera.aspect = sizes.width / sizes.height
+            camera.updateProjectionMatrix()
+
+            // Update renderer
+            renderer.setSize(sizes.width, sizes.height)
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        })
+
+        ///Fullscreen
+        window.addEventListener('dblclick', () => {
+            const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+
+            if (!fullscreenElement) {
+                if (canvas.requestFullscreen) {
+                    canvas.requestFullscreen()
+                }
+                else if (canvas.webkitRequestFullscreen) {
+                    canvas.webkitRequestFullscreen()
+                }
+            }
+            else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen()
+                }
+                else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen()
+                }
+            }
+        })
+
+        // Base camera
+        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+        camera.position.z = 5
+        scene.add(camera)
+
+        // Light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+        scene.add(ambientLight)
+
+        // Action
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: true,
+            alpha: true,
+        })
+        renderer.setSize(sizes.width, sizes.height)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+        // Controls
+        const controls = new OrbitControls(camera, canvas)
+        controls.enableDamping = true  
+
+        // Object
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+        const material = new THREE.MeshStandardMaterial({ color: 0xff0000 })
+        const mesh = new THREE.Mesh(boxGeometry, material)
+        scene.add(mesh)
+
+        //buffergeometry
+        const bufferGeometry = new THREE.BufferGeometry();
+				const vertices = [];
+
+
+        //Animate
+        const clock = new THREE.Clock()
+        const tick = () => {
+            const elapsedTime = clock.getElapsedTime()
+
+            // Update controls
+            controls.update()
+
+            //animate mesh
+            mesh.rotation.x += 0.01
+            mesh.rotation.y += 0.01
+
+            // Render
+            renderer.render(scene, camera)
+
+            // Call tick again on the next frame
+            window.requestAnimationFrame(tick)
+        }
+
+        tick()
+
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            overflow: hidden;
+        }
+    </style>
+</body>
+
+</html>
