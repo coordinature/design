@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -9,15 +9,27 @@
 
 </head>
 
-<body class="body">
-
-    <div class="uk-section uk-padding-remove uk-height-viewport uk-width-viewport uk-background-muted">
-        <div class="uk-card uk-card-secondary uk-card-medium uk-border-rounded uk-position-bottom">
-            <div class="uk-card-body"> hello </div>
+<body>
+    <div class="uk-section uk-cover-container uk-width-viewport uk-height-viewport uk-background-muted uk-flex uk-flex-center uk-flex-middle">
+        <canvas class="webgl"  uk-cover></canvas>
+<!--         <img src="https://images.pexels.com/photos/3838850/pexels-photo-3838850.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" uk-cover>
+ -->        <div class="uk-container uk-width-large uk-flex uk-flex-center">
+            <div class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
+                <div class="uk-card-header">
+                    <div> title </div>
+                    <div class="uk-text-meta"> description </div>
+                </div>
+                <div class="uk-card-body"> 
+                    body
+                </div>
+                <div class="uk-card-footer">
+                    <div class="uk-text-meta">
+                        footer
+                    </div>
+                </div>
+            </div>
         </div>
-        <canvas class="webgl"></canvas>
     </div>
-
     <script type="module">
         import * as THREE from 'https://unpkg.com/three/build/three.module.js';
         import { OrbitControls } from 'https://cdn.skypack.dev/three@0.131.1/examples/jsm/controls/OrbitControls.js'
@@ -72,7 +84,7 @@
 
         // Base camera
         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-        camera.position.z = 5
+        camera.position.set(1, -10, 5)
         scene.add(camera)
 
         // Light
@@ -94,8 +106,9 @@
         controls.enableDamping = true
 
         // Object
-        const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 })
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3)
+        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0x00CCCCC })
+        boxMaterial.wireframe = true
         const box = new THREE.Mesh(boxGeometry, boxMaterial)
         scene.add(box)
 
@@ -111,14 +124,18 @@
         const sprite2 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/a.svg')
         const sprite3 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/H-caps.svg')
         const sprite4 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/Z-caps.svg')
-        const sprite5 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/astricks.svg')
-        const sprite6 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/e.svg')
-
+        const sprite5 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/asterisk.svg')
+        const sprite6 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/E-caps.svg')
+        const sprite7 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/esclamation-mark.svg')
+        const sprite8 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/question-mark.svg')
+        const sprite9 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/R-caps.svg')
+        const sprite10 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/v.svg')
+        
         for (let i = 0; i < 10000; i++) {
 
-            const x = Math.random() * 2000 - 1000;
-            const y = Math.random() * 2000 - 1000;
-            const z = Math.random() * 2000 - 1000;
+            const x = Math.random() * 1600 - 1000;
+            const y = Math.random() * 1600 - 1000;
+            const z = Math.random() * 1600 - 1000;
 
             vertices.push(x, y, z);
 
@@ -130,60 +147,99 @@
             [[0.95, 0.1, 0.5], sprite2, 15],
             [[0.90, 0.05, 0.5], sprite3, 10],
             [[0.85, 0, 0.5], sprite4, 8],
-            [[0.80, 0, 0.5], sprite5, 5]
+            [[0.80, 0, 0.5], sprite5, 5],
+            [[0.70, 0, 0.5], sprite6, 6],
+            [[0.80, 0, 0.5], sprite7, 7],
+            [[0.70, 0, 0.5], sprite8, 12],
+            [[0.80, 0, 0.5], sprite9, 13],
+            [[0.70, 0, 0.5], sprite10, 16]
         ]
         for (let i = 0; i < parameters.length; i++) {
 
-            const color = parameters[i][0];
-            const sprite = parameters[i][1];
-            const size = parameters[i][2];
+            const color = parameters[i][0]
+            const sprite = parameters[i][1]
+            const size = parameters[i][2]
 
             materials[i] = new THREE.PointsMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true });
-            materials[i].color.setHSL(color[0], color[1], color[2]);
+            materials[i].color.setHSL(color[0], color[1], color[2])
 
-            const particles = new THREE.Points(geometry, materials[i]);
+            const particles = new THREE.Points(geometry, materials[i])
 
-            particles.rotation.x = Math.random() * 6;
-            particles.rotation.y = Math.random() * 6;
-            particles.rotation.z = Math.random() * 6;
+            particles.rotation.x = Math.random() * 6
+            particles.rotation.y = Math.random() * 6
+            particles.rotation.z = Math.random() * 6
 
-            scene.add(particles);
+            scene.add(particles)
 
         }
 
-        //Animate
-        const clock = new THREE.Clock()
-        const tick = () => {
-            const elapsedTime = clock.getElapsedTime()
 
-            // Update controls
-            controls.update()
 
-            //animate mesh
-            box.rotation.x += 0.01
-            box.rotation.y += 0.01
+            //Animate
+            const clock = new THREE.Clock()
+            const tick = () => {
+                const elapsedTime = clock.getElapsedTime()
 
-            // Render
-            renderer.render(scene, camera)
+                // Update controls
+                controls.update()
 
-            // Call tick again on the next frame
-            window.requestAnimationFrame(tick)
-        }
+                //animate mesh
+                //box.rotation.x += 0.01
+                //box.rotation.y += 0.01
 
-        tick()
+                const time = Date.now() * 0.000005;
+
+           
+            camera.lookAt(scene.position);
+
+            for (let i = 0; i < scene.children.length; i++) {
+
+                const object = scene.children[i];
+
+                if (object instanceof THREE.Points) {
+
+                    object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+
+                }
+
+            }
+
+            for (let i = 0; i < materials.length; i++) {
+
+                const color = parameters[i][0];
+
+                const h = (360 * (color[0] + time) % 360) / 360;
+                materials[i].color.setHSL(h, color[1], color[2]);
+
+            }
+
+
+                // Render
+                renderer.render(scene, camera)
+
+                // Call tick again on the next frame
+                window.requestAnimationFrame(tick)
+            }
+
+            tick()
 
     </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            overflow: hidden;
-        }
-    </style>
 </body>
+
+<style scoped>
+    .tm-card-medium-horizontal {
+        width: 380px;
+        height: 245px;
+
+    }
+    .tm-card-medium-verticla {
+        height: 380px;
+        width: 245px;
+    }
+    .uk-border-rounded-tm {
+    border-radius: 14px;
+}
+
+</style>
 
 </html>
