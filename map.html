@@ -1,0 +1,120 @@
+<html lang="en">
+
+<head>
+    <title>Map</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+        type="text/css" />
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+</head>
+
+<body>
+    <div
+    class="uk-section uk-cover-container uk-width-viewport uk-height-viewport uk-background-muted uk-flex uk-flex-center uk-flex-middle">
+    <!--  <canvas class="webgl" uk-cover></canvas>  -->
+    <div id="map" class="map" uk-cover></div>
+    <div id="scene" class="uk-container uk-width-large uk-flex uk-flex-center">
+        <div data-depth="0.8" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
+            <div class="uk-card-header">
+                <div> title </div>
+                <div class="uk-text-meta"> description </div>
+            </div>
+            <div class="uk-card-body">
+                body
+            </div>
+            <div class="uk-card-footer">
+                <div class="uk-text-meta">
+                    footer
+                </div>
+            </div>
+        </div>
+        <div data-depth="0.6" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
+            <div class="uk-card-header">
+                <div> title </div>
+                <div class="uk-text-meta"> description </div>
+            </div>
+            <div class="uk-card-body">
+                body
+            </div>
+            <div class="uk-card-footer">
+                <div class="uk-text-meta">
+                    footer
+                </div>
+            </div>
+        </div>
+        <div data-depth="0.2" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
+            <div class="uk-card-header">
+                <div> title </div>
+                <div class="uk-text-meta"> description </div>
+            </div>
+            <div class="uk-card-body">
+                body
+            </div>
+            <div class="uk-card-footer">
+                <div class="uk-text-meta">
+                    footer
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+<script>
+    var scene = document.getElementById('scene');
+    var parallaxInstance = new Parallax(scene);
+</script>
+    <script type="module">
+        import CoordsControl from "https://cdn.skypack.dev/-/ol-coords@v1.0.1-sXJYhG5Btz3WYSzwvHZH/dist=es2020,mode=imports/optimized/ol-coords.js";
+
+        function olControl() {
+            const olMap = new ol.Map({
+                target: "map",
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                controls: ol.control
+                    .defaults({ attribution: true })
+                    .extend([
+                        new ol.control.ZoomSlider(),
+                        new CoordsControl({ placeholder: "Fly to coordinate" })
+                    ]),
+                view: new ol.View({
+                    zoom: 7,
+                    center: [34, 39], // ol.proj.fromLonLat([35, 39]) - projection: 'EPSG:3857'
+                    projection: ol.proj.get("EPSG:4326")
+                })
+            });
+        }
+
+        olControl();
+
+    </script>
+    <style>
+        .map {
+            background: gray;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+        }
+        .tm-card-medium-horizontal {
+        width: 380px;
+        height: 245px;
+
+    }
+
+    .tm-card-medium-verticla {
+        height: 380px;
+        width: 245px;
+    }
+
+    .uk-border-rounded-tm {
+        border-radius: 14px;
+    }
+    </style>
+</body>
+
+</html>
