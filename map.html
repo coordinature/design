@@ -12,20 +12,18 @@
 
 <body>
     <div uk-section uk-width-viewport uk-height-viewport uk-background-muted uk-flex uk-flex-center uk-flex-middle">
-        <div>
-            <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <div class="uk-flex uk-flex-center">
+
+            <ul class="uk-subnav uk-subnav-pill uk-position-fixed uk-padding-large" uk-switcher>
                 <li><a href="#">Map</a></li>
                 <li><a href="#">VR</a></li>
             </ul>
             <ul class="uk-switcher uk-margin">
                 <li>
-                    <div class="uk-cover-container">
+                    <div class="uk-cover-container uk-flex uk-flex-center uk-flex-middle">
                         <div id="map" class="map" uk-cover></div>
-                        <div class="uk-card uk-card-default">
-                            hello
-                        </div>
-                    </div>
-                    
+
+                    </div>      
                 </li>
 
                 <li>
@@ -37,55 +35,6 @@
         </div>
     </div>
     
-<!--     <div
-        class="uk-section uk-cover-container uk-width-viewport uk-height-viewport uk-background-muted uk-flex uk-flex-center uk-flex-middle">
-      <canvas class="webgl" uk-cover></canvas>
-        <div id="map" class="map" uk-cover></div>
-        <div id="scene" class="uk-container uk-width-large uk-flex uk-flex-center">
-            <div data-depth="0.8" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
-                <div class="uk-card-header">
-                    <div> title </div>
-                    <div class="uk-text-meta"> description </div>
-                </div>
-                <div class="uk-card-body">
-                    body
-                </div>
-                <div class="uk-card-footer">
-                    <div class="uk-text-meta">
-                        footer
-                    </div>
-                </div>
-            </div>
-            <div data-depth="0.6" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
-                <div class="uk-card-header">
-                    <div> title </div>
-                    <div class="uk-text-meta"> description </div>
-                </div>
-                <div class="uk-card-body">
-                    body
-                </div>
-                <div class="uk-card-footer">
-                    <div class="uk-text-meta">
-                        footer
-                    </div>
-                </div>
-            </div>
-            <div data-depth="0.2" class="uk-card uk-card-default tm-card-medium-horizontal uk-border-rounded-tm">
-                <div class="uk-card-header">
-                    <div> title </div>
-                    <div class="uk-text-meta"> description </div>
-                </div>
-                <div class="uk-card-body">
-                    body
-                </div>
-                <div class="uk-card-footer">
-                    <div class="uk-text-meta">
-                        footer
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/js/uikit.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
@@ -135,7 +84,7 @@
         //Sizes
         const sizes = {
             width: window.innerWidth,
-            height: window.innerHeight/1.8
+            height: window.innerHeight
         }
 
         window.addEventListener('resize', () => {
@@ -318,14 +267,17 @@
     </script>
 
     <style>
-            .webgl{
+        .uk-subnav{
+            z-index:2;
+        }
+        .webgl{
             height: 80vh;
             width: 100vw;
             position: fixed;
         }
         .map {
             background: gray;
-            height: 80vh;
+            height: 100vh;
             width: 100vw;
             position: fixed;
         }
