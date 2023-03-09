@@ -2,83 +2,113 @@
 <html>
 
 <head>
-    <script src='https://unpkg.com/@antv/l7'></script>
-    <script src='https://unpkg.com/@antv/l7@2.0.11'></script>
+  <script src='https://unpkg.com/@antv/l7'></script>
+  <script src='https://unpkg.com/@antv/l7@2.0.11'></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+
 </head>
 
 <body>
+  <div>
+    <div class="uk-container uk-flex">
+      <div>
+        <div class="uk-container ">
+          <div id="myDIV" class="uk-header  uk-flex uk-flex-row">
+            <input class="uk-input" type="text" id="name" placeholder="city Name">
+            <input class="uk-input" type="text" id="lat" placeholder="lat">
+            <input class="uk-input" type="text" id="lng" placeholder="lng">
+    
+            <span onclick="newElement()" class="uk-button uk-button-default">Add</span>
+          </div>
+          
+          <ul id="locations">
+            <li>Rotterdam</li>
+          </ul>
+
     <div style="min-height: 500px; justify-content: center;position: relative" id="map" />
+  </div>
 
-
-
-    <script type="module">
-
-        import * as THREE from 'https://unpkg.com/three/build/three.module.js';
-        const { Scene, GaodeMap, PolygonLayer, PointLayer } = window.L7
-        //console.log(Scene)
-
-        const scene = new Scene({
-            id: 'map',
-            map: new GaodeMap({
-                style: 'dark',
-                center: [4.462456, 51.926517],
-                rotation: 15,
-                pitch: 45,
-                zoom: 4,
-            }),
-        })
-
-        
-        fetch('map.json'
-      )
-        .then(res => res.json())
-        .then(data => {
-          const pointLayer = new PointLayer({})
-            .source(data.list, {
-              parser: {
-                type: "json",
-                x: "j",
-                y: "w"
-              }
-            })
-            .shape("cylinder")
-            .size("t", function(level) {
-              return [1, 2, level * 2 + 20];
-            })
-            .color("t", [
-              "#094D4A",
-              "#146968",
-              "#1D7F7E",
-              "#289899",
-              "#34B6B7",
-              "#4AC5AF",
-              "#5FD3A6",
-              "#7BE39E",
-              "#A1EDB8",
-              "#CEF8D6"
-            ])
-            .style({
-              opacity: 1.0
-            });
-          scene.addLayer(pointLayer);
-        });
-
-
+  <script>
+    
+    
+    // Create a new list item when clicking on the "Add" button
+    function newElement() {
+      var li = document.createElement("li");
+      var inputValue = document.getElementById("name").value;
+      var t = document.createTextNode(inputValue);
+      li.appendChild(t);
+      if (inputValue === '') {
+        alert("You must write something!");
+      } else {
+        document.getElementById("locations").appendChild(li);
+      }
+      document.getElementById("name").value = "";
+    
+      var span = document.createElement("SPAN");
+      var txt = document.createTextNode("\u00D7");
+      span.appendChild(txt);
+      li.appendChild(span);
+    
+    }
     </script>
-    <style>
-        html,
-        body {
-            overflow: hidden;
-            margin: 0;
-        }
 
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
+  <script type="module">
+
+    import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+    const { Scene, GaodeMap, PolygonLayer, PointLayer, } = window.L7
+
+    const scene = new Scene({
+      id: 'map',
+      map: new GaodeMap({
+        style: 'dark',
+        center: [4.462456, 51.926517],
+        rotation: 0,
+        pitch: 0,
+        zoom: 7,
+      }),
+    })
+
+
+    const data = {
+      name: 'Rotterdam',
+      Lng: '4.462456',
+      lat: '51.926517'
+    }
+
+
+    const pointLayer = new PointLayer({})
+      .source([{ lng: 4.462456, lat: 51.926517 }], {
+        parser: {
+          type: 'json',
+          x: 'lng',
+          y: 'lat',
         }
-    </style>
+      })
+      .shape(data.name)
+      .size(15)
+      .color('#fff')
+      .active(true)
+      .style({
+        opacity: 0.6,
+        strokeWidth: 0
+      });
+    scene.addLayer(pointLayer);
+
+  </script>
+  <style>
+    html,
+    body {
+      overflow: hidden;
+      margin: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </body>
 
 
