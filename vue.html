@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-body">
+                <ul>
+                    <li>
+                        <input v-model="current.name" placeholder="add your location name" />
+                    </li>
+                    <li>
+                        <input v-model="current.lat" placeholder="add your langitude" />
+                    </li>
+                    <li>
+                        <input v-model="current.lon" placeholder="add your longitude" />
+                    </li>
+                </ul>
+
+                {{current}}
+            </div>
+            <div class="uk-card-footer">
+                <ul>
+                    <li v-for="position in list">
+                        {{ position }}
+                        <button @click="removeFromList(position, list)">Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <button @click="addToList(current, list)">Add</button>
+        </div>
+    </div>
+</body>
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                current: {
+                    name: 'name',
+                    lat: 0,
+                    lon: 0
+                },
+                list: []
+            }
+        },
+        methods: {
+            addToList(current, list) {
+                // Find the # of of the location we just got
+                const locationIndex = list.indexOf(current)
+
+                // Check if this item already exists
+                const isReal = locationIndex !== -1
+
+                // We check if the item isn't real.
+                // Now, we can push the item into the list.
+                // We've used '...' to make sure the item is a copy
+                if(!isReal) {
+                    list.push({...current})
+                } 
+               
+            },
+            removeFromList(current, list) {
+                // Find the number of this item in the list
+                const locationIndex = list.indexOf(current)
+
+                // Using the number, create a new copy, where everything
+                // from this number and one step after it, is removed.
+                // locations will now be a version of the list without
+                // that range.
+                list.splice(locationIndex, 1)
+            }
+        }
+    }).mount('#app')
+</script>
+
+</html>
