@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+    <script src='https://unpkg.com/@antv/l7'></script>
+    <script src='https://unpkg.com/@antv/l7@2.0.11'></script>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top">
+                <div style="min-height: 300px; justify-content: center;position: relative" id="map" />
+
+            </div>
+            <div class="uk-card-body">
+                <ul class="uk-list">
+                    <li>
+                        <input class="uk-input" v-model="current.name" placeholder="add your location name" />
+                    </li>
+                    <li>
+                        <input class="uk-input" v-model="current.lat" placeholder="add your langitude" />
+                    </li>
+                    <li>
+                        <input class="uk-input" v-model="current.lon" placeholder="add your longitude" />
+                    </li>
+                </ul>
+
+                {{current}}
+            </div>
+            <div class="uk-card-footer">
+                <ul class="uk-list">
+                    <li v-for="position in list">
+                        {{ position }}
+                        <button class="uk-icon-button uk-margin" @click="removeFromList(position, list)"> x </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <button class="uk-button" @click="addToList(current, list)">Add</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            return {
+                current: {
+                    name: 'name',
+                    lat: 0,
+                    lon: 0
+                },
+                list: []
+            }
+        },
+        mounted() {
+            const { Scene, GaodeMap, PolygonLayer, PointLayer, } = window.L7
+
+            const scene = new Scene({
+                id: 'map',
+                map: new GaodeMap({
+                    style: 'dark',
+                    center: [4.462456, 51.926517],
+                    rotation: 0,
+                    pitch: 0,
+                    zoom: 7,
+                }),
+            })
+
+
+            const data = {
+                name: 'Rotterdam',
+                lng: '4.462456',
+                lat: '51.926517'
+            }
+
+            // Repeat the previous two steps, for each item in the list
+            // Make a list of locations
+            const listOfLocations = [
+                {
+                    name: 'Rotterdam',
+                    lng: '4.462456',
+                    lat: '51.926517'
+                },
+                {
+                    name: 'Rtterdam',
+                    lng: '4.462456',
+                    lat: '53.926517'
+                },
+                {
+                    name: 'Roterdam',
+                    lng: '6.462456',
+                    lat: '51.926517'
+                },
+                {
+                    name: 'Rottedam',
+                    lng: '5.462456',
+                    lat: '51.926517'
+                },
+            ]
+
+            updateMap(listOfLocations, scene)
+        },
+
+
+        methods: {
+            updateMap(list, scene) {
+
+                const pointLayer = new PointLayer({})
+                    .source(list, {
+                        parser: {
+                            type: 'json',
+                            x: 'lng',
+                            y: 'lat',
+                        }
+                    })
+                    .shape('locations')
+                    .size(15)
+                    .color('#fff')
+                    .active(true)
+                    .style({
+                        opacity: 0.6,
+                        strokeWidth: 0
+                    })
+
+                scene.addLayer(pointLayer)
+            },
+            addToList(current, list) {
+                // Find the # of of the location we just got
+                const locationIndex = list.indexOf(current)
+
+                // Check if this item already exists
+                const isReal = locationIndex !== -1
+
+                // We check if the item isn't real.
+                // Now, we can push the item into the list.
+                // We've used '...' to make sure the item is a copy
+                if (!isReal) {
+                    list.push({ ...current })
+                }
+
+                // update the map with the new list
+                
+            },
+            removeFromList(current, list) {
+                // Find the number of this item in the list
+                const locationIndex = list.indexOf(current)
+
+                // Using the number, create a new copy, where everything
+                // from this number and one step after it, is removed.
+                // locations will now be a version of the list without
+                // that range.
+                list.splice(locationIndex, 1)
+            }
+        }
+    }).mount('#app')
+</script>
+
+
+
+<style>
+    html,
+    body {
+        overflow: hidden;
+        margin: 0;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+
+</html>
