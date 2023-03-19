@@ -97,28 +97,6 @@
                             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
                         })
 
-                        ///Fullscreen
-                        window.addEventListener('dblclick', () => {
-                            const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
-
-                            if (!fullscreenElement) {
-                                if (canvas.requestFullscreen) {
-                                    canvas.requestFullscreen()
-                                }
-                                else if (canvas.webkitRequestFullscreen) {
-                                    canvas.webkitRequestFullscreen()
-                                }
-                            }
-                            else {
-                                if (document.exitFullscreen) {
-                                    document.exitFullscreen()
-                                }
-                                else if (document.webkitExitFullscreen) {
-                                    document.webkitExitFullscreen()
-                                }
-                            }
-                        })
-
                         // Base camera
                         const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
                         camera.position.set(1, -10, 5)
@@ -291,28 +269,6 @@
                             // Update renderer
                             renderer.setSize(sizes.width, sizes.height)
                             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-                        })
-
-                        ///Fullscreen
-                        window.addEventListener('dblclick', () => {
-                            const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
-
-                            if (!fullscreenElement) {
-                                if (canvas.requestFullscreen) {
-                                    canvas.requestFullscreen()
-                                }
-                                else if (canvas.webkitRequestFullscreen) {
-                                    canvas.webkitRequestFullscreen()
-                                }
-                            }
-                            else {
-                                if (document.exitFullscreen) {
-                                    document.exitFullscreen()
-                                }
-                                else if (document.webkitExitFullscreen) {
-                                    document.webkitExitFullscreen()
-                                }
-                            }
                         })
 
                         // Base camera
