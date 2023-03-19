@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.3/dist/css/uikit.min.css" />
+
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">
+        <div class="uk-section uk-cover-container uk-width-viewport uk-height-viewport uk-background-muted uk-flex uk-flex-center uk-flex-middle uk-flex-column"
+            :style="{ backgroundColor: message === 'picture' ? '#E6DCF3' : message === 'note' ? '#F4F2EF' : 'none' }">
+            <canvas class="webgl" uk-cover></canvas>
+            <div class="uk-section-small">
+                <div class="uk-card uk-card-default uk-border-rounded">
+                    <div class="uk-flex uk-flex-center uk-flex-middle" style="width: 50px; height: 50px; ">
+                      <img src="https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/logo.png" style="width: 30px; height: 30px;"/>
+                    </div>
+                  </div>
+            </div>
+            <div class="uk-section-small">
+                <div class="uk-card uk-card-default uk-border-rounded">
+                    <div class="uk-card-body">
+                        <div>
+                            <div v-if="!message" class="uk-card-title">title</div>
+                            <div v-else class="uk-card-title">{{ message }}</div>
+                        </div>
+    
+                        <input class="uk-input" placeholder="write picture or note" type="text" v-model="message" />
+    
+                    </div>
+                    <div class="uk-card-footer">
+                        <div v-if=" message === 'picture'">
+                            <component1 />
+                        </div>
+                        <div v-if=" message === 'note'">
+                            <component2 />
+                        </div>
+                        <div v-if="!message">
+                            Footer
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+    
+            </div>
+            
+    </div>
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.131.1/examples/jsm/controls/OrbitControls.js'
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: '',
+                }
+            },
+            methods: {
+
+            },
+            components: {
+                component1: {
+                    template:
+                        `
+        <div>
+            dit is component 1
+        </div>
+        `,
+                    mounted() {
+                        // Canvas
+                        const canvas = document.querySelector('canvas.webgl')
+
+                        // Scene
+                        const scene = new THREE.Scene()
+
+                        //Sizes
+                        const sizes = {
+                            width: window.innerWidth,
+                            height: window.innerHeight
+                        }
+
+                        window.addEventListener('resize', () => {
+                            // Update sizes
+                            sizes.width = window.innerWidth
+                            sizes.height = window.innerHeight
+
+                            // Update camera
+                            camera.aspect = sizes.width / sizes.height
+                            camera.updateProjectionMatrix()
+
+                            // Update renderer
+                            renderer.setSize(sizes.width, sizes.height)
+                            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+                        })
+
+                        ///Fullscreen
+                        window.addEventListener('dblclick', () => {
+                            const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+
+                            if (!fullscreenElement) {
+                                if (canvas.requestFullscreen) {
+                                    canvas.requestFullscreen()
+                                }
+                                else if (canvas.webkitRequestFullscreen) {
+                                    canvas.webkitRequestFullscreen()
+                                }
+                            }
+                            else {
+                                if (document.exitFullscreen) {
+                                    document.exitFullscreen()
+                                }
+                                else if (document.webkitExitFullscreen) {
+                                    document.webkitExitFullscreen()
+                                }
+                            }
+                        })
+
+                        // Base camera
+                        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+                        camera.position.set(1, -10, 5)
+                        scene.add(camera)
+
+                        // Light
+                        const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+                        scene.add(ambientLight)
+
+                        // Action
+                        const renderer = new THREE.WebGLRenderer({
+                            canvas: canvas,
+                            antialias: true,
+                            alpha: true,
+                        })
+                        renderer.setSize(sizes.width, sizes.height)
+                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+                        // Controls
+                        const controls = new OrbitControls(camera, canvas)
+                        controls.enableDamping = true
+
+                        // Object
+                        const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3)
+                        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0x00CCCCC })
+                        boxMaterial.wireframe = true
+                        const box = new THREE.Mesh(boxGeometry, boxMaterial)
+                        //scene.add(box)
+
+                        //buffergeometry
+                        const geometry = new THREE.BufferGeometry()
+                        const vertices = []
+                        const materials = [];
+
+                        //texture
+                        const textureLoader = new THREE.TextureLoader()
+
+                        const sprite1 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/apple.png')
+                        const sprite2 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/cube.png')
+                        const sprite3 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/giraffe.png')
+                        const sprite4 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/lamp.png')
+                        const sprite5 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/Plant.png')
+                        const sprite6 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/giraffe.png')
+                        const sprite7 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/apple.png')
+                        const sprite8 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/cube.png')
+                        const sprite9 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/master/assets/%40mini/illustrations/Plant.png')
+
+                        for (let i = 0; i < 10000; i++) {
+
+                            const x = Math.random() * 1600 - 1000;
+                            const y = Math.random() * 1600 - 1000;
+                            const z = Math.random() * 1600 - 1000;
+
+                            vertices.push(x, y, z);
+
+                        }
+                        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+
+                        const parameters = [
+                            [[1.0, 0.2, 0.5], sprite1, 20],
+                            [[0.95, 0.1, 0.5], sprite2, 15],
+                            [[0.90, 0.05, 0.5], sprite3, 10],
+                            [[0.85, 0, 0.5], sprite4, 8],
+                            [[0.80, 0, 0.5], sprite5, 5],
+                            [[0.70, 0, 0.5], sprite6, 6],
+                            [[0.80, 0, 0.5], sprite7, 7],
+                            [[0.70, 0, 0.5], sprite8, 12],
+                            [[0.80, 0, 0.5], sprite9, 13],
+                        ]
+                        for (let i = 0; i < parameters.length; i++) {
+
+                            const color = parameters[i][0]
+                            const sprite = parameters[i][1]
+                            const size = parameters[i][2]
+
+                            materials[i] = new THREE.PointsMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true });
+                            materials[i].color.setHSL(color[0], color[1], color[2])
+
+                            const particles = new THREE.Points(geometry, materials[i])
+
+                            particles.rotation.x = Math.random() * 6
+                            particles.rotation.y = Math.random() * 6
+                            particles.rotation.z = Math.random() * 6
+
+                            scene.add(particles)
+
+                        }
+
+
+
+                        //Animate
+                        const clock = new THREE.Clock()
+                        const tick = () => {
+                            const elapsedTime = clock.getElapsedTime()
+
+                            // Update controls
+                            controls.update()
+
+                            //animate mesh
+                            //box.rotation.x += 0.01
+                            //box.rotation.y += 0.01
+
+                            const time = Date.now() * 0.000005;
+
+
+                            camera.lookAt(scene.position);
+
+                            for (let i = 0; i < scene.children.length; i++) {
+
+                                const object = scene.children[i];
+
+                                if (object instanceof THREE.Points) {
+
+                                    object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+
+                                }
+
+                            }
+
+                            for (let i = 0; i < materials.length; i++) {
+
+                                const color = parameters[i][0];
+
+                                const h = (360 * (color[0] + time) % 360) / 360;
+                                materials[i].color.setHSL(h, color[1], color[2]);
+
+                            }
+
+
+                            // Render
+                            renderer.render(scene, camera)
+
+                            // Call tick again on the next frame
+                            window.requestAnimationFrame(tick)
+                        }
+
+                        tick()
+                    }
+                },
+                component2: {
+                    template: `
+        <div>
+            dit is component 2
+        </div>
+        `,
+                    mounted() {
+
+                        // Canvas
+                        const canvas = document.querySelector('canvas.webgl')
+
+                        // Scene
+                        const scene = new THREE.Scene()
+
+                        //Sizes
+                        const sizes = {
+                            width: window.innerWidth,
+                            height: window.innerHeight
+                        }
+
+                        window.addEventListener('resize', () => {
+                            // Update sizes
+                            sizes.width = window.innerWidth
+                            sizes.height = window.innerHeight
+
+                            // Update camera
+                            camera.aspect = sizes.width / sizes.height
+                            camera.updateProjectionMatrix()
+
+                            // Update renderer
+                            renderer.setSize(sizes.width, sizes.height)
+                            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+                        })
+
+                        ///Fullscreen
+                        window.addEventListener('dblclick', () => {
+                            const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+
+                            if (!fullscreenElement) {
+                                if (canvas.requestFullscreen) {
+                                    canvas.requestFullscreen()
+                                }
+                                else if (canvas.webkitRequestFullscreen) {
+                                    canvas.webkitRequestFullscreen()
+                                }
+                            }
+                            else {
+                                if (document.exitFullscreen) {
+                                    document.exitFullscreen()
+                                }
+                                else if (document.webkitExitFullscreen) {
+                                    document.webkitExitFullscreen()
+                                }
+                            }
+                        })
+
+                        // Base camera
+                        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+                        camera.position.set(1, -10, 5)
+                        scene.add(camera)
+
+                        // Light
+                        const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+                        scene.add(ambientLight)
+
+                        // Action
+                        const renderer = new THREE.WebGLRenderer({
+                            canvas: canvas,
+                            antialias: true,
+                            alpha: true,
+                        })
+                        renderer.setSize(sizes.width, sizes.height)
+                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+                        // Controls
+                        const controls = new OrbitControls(camera, canvas)
+                        controls.enableDamping = true
+
+                        // Object
+                        const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3)
+                        const boxMaterial = new THREE.MeshStandardMaterial({ color: 0x00CCCCC })
+                        boxMaterial.wireframe = true
+                        const box = new THREE.Mesh(boxGeometry, boxMaterial)
+                        //scene.add(box)
+
+                        //buffergeometry
+                        const geometry = new THREE.BufferGeometry()
+                        const vertices = []
+                        const materials = [];
+
+                        //texture
+                        const textureLoader = new THREE.TextureLoader()
+
+                        const sprite1 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/comma.svg')
+                        const sprite2 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/a.svg')
+                        const sprite3 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/H-caps.svg')
+                        const sprite4 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/Z-caps.svg')
+                        const sprite5 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/asterisk.svg')
+                        const sprite6 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/E-caps.svg')
+                        const sprite7 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/esclamation-mark.svg')
+                        const sprite8 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/question-mark.svg')
+                        const sprite9 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/R-caps.svg')
+                        const sprite10 = textureLoader.load('https://raw.githubusercontent.com/coordinature/design/8925b0fc2d4ed7c8f68e6a17af6af833c28f48bd/assets/%40mini/icons/v.svg')
+
+                        for (let i = 0; i < 10000; i++) {
+
+                            const x = Math.random() * 1600 - 1000;
+                            const y = Math.random() * 1600 - 1000;
+                            const z = Math.random() * 1600 - 1000;
+
+                            vertices.push(x, y, z);
+
+                        }
+                        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+
+                        const parameters = [
+                            [[1.0, 0.2, 0.5], sprite1, 20],
+                            [[0.95, 0.1, 0.5], sprite2, 15],
+                            [[0.90, 0.05, 0.5], sprite3, 10],
+                            [[0.85, 0, 0.5], sprite4, 8],
+                            [[0.80, 0, 0.5], sprite5, 5],
+                            [[0.70, 0, 0.5], sprite6, 6],
+                            [[0.80, 0, 0.5], sprite7, 7],
+                            [[0.70, 0, 0.5], sprite8, 12],
+                            [[0.80, 0, 0.5], sprite9, 13],
+                            [[0.70, 0, 0.5], sprite10, 16]
+                        ]
+                        for (let i = 0; i < parameters.length; i++) {
+
+                            const color = parameters[i][0]
+                            const sprite = parameters[i][1]
+                            const size = parameters[i][2]
+
+                            materials[i] = new THREE.PointsMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true });
+                            materials[i].color.setHSL(color[0], color[1], color[2])
+
+                            const particles = new THREE.Points(geometry, materials[i])
+
+                            particles.rotation.x = Math.random() * 6
+                            particles.rotation.y = Math.random() * 6
+                            particles.rotation.z = Math.random() * 6
+
+                            scene.add(particles)
+
+                        }
+
+
+
+                        //Animate
+                        const clock = new THREE.Clock()
+                        const tick = () => {
+                            const elapsedTime = clock.getElapsedTime()
+
+                            // Update controls
+                            controls.update()
+
+                            //animate mesh
+                            //box.rotation.x += 0.01
+                            //box.rotation.y += 0.01
+
+                            const time = Date.now() * 0.000005;
+
+
+                            camera.lookAt(scene.position);
+
+                            for (let i = 0; i < scene.children.length; i++) {
+
+                                const object = scene.children[i];
+
+                                if (object instanceof THREE.Points) {
+
+                                    object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+
+                                }
+
+                            }
+
+                            for (let i = 0; i < materials.length; i++) {
+
+                                const color = parameters[i][0];
+
+                                const h = (360 * (color[0] + time) % 360) / 360;
+                                materials[i].color.setHSL(h, color[1], color[2]);
+
+                            }
+
+
+                            // Render
+                            renderer.render(scene, camera)
+
+                            // Call tick again on the next frame
+                            window.requestAnimationFrame(tick)
+                        }
+
+                        tick()
+
+
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+
+</html>
